@@ -9,11 +9,13 @@ public class FireChiefCrews {
     private ArrayList<ArrayList<Integer>> crews; // crews : lists of numbers which represent members
     private int enginesCount; // number of engines
     private Stack<Integer> availableMembers;
+    private int servicedEnginesThisMonth;
 
     // Constructor
     public FireChiefCrews(int members, int engines) {
         this.membersCount = members;
         this.enginesCount = engines;
+        this.servicedEnginesThisMonth = 0;
 
         // crew init
         this.crews = new ArrayList<ArrayList<Integer>>();
@@ -41,6 +43,9 @@ public class FireChiefCrews {
     public int getEnginesCount() {
         return this.enginesCount;
     }
+    public int getServicedEnginesCheck() {
+        return this.servicedEnginesThisMonth;
+    }
 
     // Returns an ArrayList of available members
     public ArrayList<Integer> requestMembers(int requirement) {
@@ -64,6 +69,19 @@ public class FireChiefCrews {
     public void initAvailableStack(ArrayList<Integer> crew) {
         for (Integer member : crew) {
             this.availableMembers.push(member);
+        }
+    }
+    public void toggleServicedEnginesCheck() {
+        switch(this.servicedEnginesThisMonth) {
+            case 0:
+                this.servicedEnginesThisMonth++;
+                break;
+            case 1:
+                this.servicedEnginesThisMonth++;
+                break;
+            case 2:
+                this.servicedEnginesThisMonth = 0;
+                break;
         }
     }
 
