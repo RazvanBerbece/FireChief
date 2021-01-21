@@ -3,3 +3,6 @@ target/
 .classpath
 .project
 .settings/
+src/.DS_Store
+src/main/.DS_Store
+src/main/java/.DS_Store
