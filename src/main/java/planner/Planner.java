@@ -66,9 +66,22 @@ public class Planner {
         // initialise task list for given date
         tasks.add(new Task(1, descriptions.get(0), this.resources.requestMembers(2), dateTime, 1)); // sweeping 
         if (day % 2 != 0) { // emptying trash
-            tasks.add(new Task(1, descriptions.get(1), this.resources.requestMembers(2), dateTime, 2));
+            tasks.add(new Task(2, descriptions.get(1), this.resources.requestMembers(2), dateTime, 2));
         }
         // WASHING & SERVICING LOGIC HERE -- TODO
+
+        return tasks;
+
+    }
+
+    // The schedule for multiple days (uses the getScheduleOn() method)
+    public ArrayList<ArrayList<Task>> getScheduleOnInterval(LocalDate start, LocalDate end) {
+        
+        ArrayList<ArrayList<Task>> tasks = new ArrayList<ArrayList<Task>>();
+
+        for (LocalDate date = start; !date.isAfter(end); date = date.plusDays(1)) {
+            tasks.add(getScheduleOn(date));
+        }
 
         return tasks;
 

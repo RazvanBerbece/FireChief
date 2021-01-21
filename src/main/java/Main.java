@@ -39,6 +39,23 @@ public class Main {
         return response;
     }
 
+    // same as above, but handles intervals of time
+    @RequestMapping("/schedule/multiple")
+    public HashMap<String, ArrayList<ArrayList<Task>>> GetScheduleForInterval(@RequestParam(name = "dateStart") String dateStart, @RequestParam(name = "dateEnd") String dateEnd) {
+    
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate dateTimeStart = LocalDate.parse(dateStart, formatter);
+        LocalDate dateTimeEnd = LocalDate.parse(dateEnd, formatter);
+    
+        Planner planner = new Planner();
+        ArrayList<ArrayList<Task>> scheduled = planner.getScheduleOnInterval(dateTimeStart, dateTimeEnd);
+    
+        HashMap<String, ArrayList<ArrayList<Task>>> response = new HashMap<String, ArrayList<ArrayList<Task>>>();
+        response.put("Scheduled", scheduled);
+
+        return response;
+    }
+
     public static void main(String[] args) {
         SpringApplication.run(Main.class, args);
     }
