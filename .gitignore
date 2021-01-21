@@ -1,0 +1,5 @@
+.vs_code
+target/
+.classpath
+.project
+.settings/
