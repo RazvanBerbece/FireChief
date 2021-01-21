@@ -41,17 +41,27 @@ public class Main {
 
     // same as above, but handles intervals of time
     @RequestMapping("/schedule/multiple")
-    public HashMap<String, ArrayList<ArrayList<Task>>> GetScheduleForInterval(@RequestParam(name = "dateStart") String dateStart, @RequestParam(name = "dateEnd") String dateEnd) {
-    
+    public HashMap<String, ArrayList<HashMap<String, ArrayList<Task>>>> GetScheduleForInterval(@RequestParam(name = "dateStart") String dateStart, @RequestParam(name = "dateEnd") String dateEnd) {
+        
+        // date formatting from query params
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         LocalDate dateTimeStart = LocalDate.parse(dateStart, formatter);
         LocalDate dateTimeEnd = LocalDate.parse(dateEnd, formatter);
-    
+        
+        // planner and the schedule for the given interval
         Planner planner = new Planner();
         ArrayList<ArrayList<Task>> scheduled = planner.getScheduleOnInterval(dateTimeStart, dateTimeEnd);
-    
-        HashMap<String, ArrayList<ArrayList<Task>>> response = new HashMap<String, ArrayList<ArrayList<Task>>>();
-        response.put("Scheduled", scheduled);
+
+        // RESPONSE FORMAT : Scheduled : [{<Date> : [Tasks]}, ...]
+        ArrayList<HashMap<String, ArrayList<Task>>> result = new ArrayList<HashMap<String, ArrayList<Task>>>();
+        for (ArrayList<Task> list : scheduled) {
+            HashMap<String, ArrayList<Task>> tasksOnDay = new HashMap<String, ArrayList<Task>>();
+            tasksOnDay.put(list.get(0).getStartDate(), list);
+            result.add(tasksOnDay);
+        }
+        
+        HashMap<String, ArrayList<HashMap<String, ArrayList<Task>>>> response = new HashMap<String, ArrayList<HashMap<String, ArrayList<Task>>>>();
+        response.put("Scheduled", result);
 
         return response;
     }
